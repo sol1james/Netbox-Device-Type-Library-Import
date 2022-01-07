@@ -387,6 +387,7 @@ def main():
     nb = pynetbox.api(nbUrl, token=nbToken)
 
     if settings.IGNORE_SSL_ERRORS:
+        print("Ignoring SSL errors")
         import requests
         requests.packages.urllib3.disable_warnings()
         session = requests.Session()
@@ -422,11 +423,11 @@ def main():
     except exc.GitCommandError as error:
         print("Couldn't clone {} ({})".format(args.url, error))
 
-    if not args.vendors:
+    if not args.vendors or args.vendors[0]=="":
         print("No Vendors Specified, Gathering All Device-Types")
         files, vendors = getFiles()
     else:
-        print("Vendor Specified, Gathering All Matching Device-Types")
+        print("Vendor(s) Specified, Gathering All Matching Device-Types")
         files, vendors = getFiles(args.vendors)
 
 
